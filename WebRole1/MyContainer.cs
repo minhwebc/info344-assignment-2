@@ -7,7 +7,7 @@ namespace WebRole1
 {
     sealed class MyContainer : BurstNavigable
     {
-        public static int BurstThreshold = 32; //Threshhold specify whether a container should be burst into a node
+        public static int BurstThreshold = 45; //Threshhold specify whether a container should be burst into a node
 
         private SortedSet<Word> _records; //keeps all the record prefix 
 

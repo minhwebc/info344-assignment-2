@@ -1,0 +1,27 @@
+extra credits that i implemented: 
+2. Hybrid List & Trie data structure (convert to Trie after > X entries in node)
+The old way of implementing the data structure is by using a trie data structure. However, even though this data structure is very fast when it comes to 
+searching, it consumes a lot of memory to store because of the idea of every character is an object that have a dictionary inside of it. To solve this problem,
+i read online and implement another variation of this trie that is called burst-trie. The idea is that it will store a number of records until it full, then it will 
+burst into a trie node that have multiple containers. The burst-trie that i have started out with a access node that have an array of length 128 representing all the 
+ascii character (so that i wont have to store the actual character itself). Burst trie will have 3 components: trie node, containers, records. A record is simple an 
+that contains the word and the page count which will be ultilized on the second part of the extra credit.The trie node will have  an array of length 128 that represent 
+all the possible characters, when the first time adding a word, it will take out the first character of the word to be the key to a container contains the rest of that word. 
+Say we have the word apple, a will be the key in the array and "pple" will be put in a container. We will always start out with a container. When a container is "full" 
+(upon reaching a certain threshold) it will burst and create a node that have the same characteristics as the access node. All of the words in the bursted container 
+will be put approriately under this node.  
+
+1. Popularity (page view) based query suggestion* I implement this by creating a record or a class called Word that has a field of content and page count. These words
+are put into a container that is a sorted set and sort them according to their page count field, if it has the same pagecount then we will just compare them using their
+content which is the word 
+
+3. Handle misspelling gracefully** If the reuslt is less than 10, the browser will make another ajax call to the server to ask for other suggestions with the current prefix 
+The server will look for all the suggestions that is the same length with the input. If same lenght, it then calculate the distance between the two words and only add to
+the list if the distance is between 1 and 2. The server will then response with a list of 10 suggestions that is within 1 or 2 edit distance from the user input
+
+4. Query suggestion based on user searches: If the string is not found by the server, the user will have the chance to add that string into the trie by clicking the submit button
+This will just add the string into the trie using the regular process used by the build trie function in the asmx file.
+
+
+
+

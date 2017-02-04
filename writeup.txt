@@ -1,0 +1,12 @@
+Requirements:
+First requirement: In order to get the web service works, i just need to register a cloud service with
+azure and create an azure cloud service project in my own local machine and publish it there as needed
+The way the API works is that every time the user type in something the browser will make ajax call to 
+the server requesting for a list of words that matches or starts with the input. In order to make each 
+process fast, i stored all the word in a trie so fast retrieval.
+Client-side AJAX and modify DOM: Like i mentioned above, everytime the user type in something, if the 
+input is not empty, the browser will make call to the server to look for all the suggestions of that 
+input. Once recieved, it will append each of the word into specified div in the html page 
+The web service is a file called getQuerySuggestions.asmx and it followed the best practices by having 
+comments on every function and type of the variable is used approriately. 
+The whole cloud service is hosted on azure like i said above nad as shown in the screenshot. 
