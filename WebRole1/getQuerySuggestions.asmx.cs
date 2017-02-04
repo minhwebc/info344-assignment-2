@@ -125,7 +125,7 @@ namespace WebRole1
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string SearchTrie(string prefix)
         {
-            List<string> result = storage.GetWords(prefix);
+            List<string> result = storage.GetWords(prefix.ToLower());
             return new JavaScriptSerializer().Serialize(result.ToArray());
         }
 
@@ -138,7 +138,7 @@ namespace WebRole1
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string SearchSuggestions(string prefix)
         {
-            List<string> result = storage.GetSuggestions(prefix);
+            List<string> result = storage.GetSuggestions(prefix.ToLower());
             return new JavaScriptSerializer().Serialize(result.ToArray());
         }
 
@@ -151,7 +151,7 @@ namespace WebRole1
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string AddWord(string prefix)
         {
-            storage.Add(prefix, 0);
+            storage.Add(prefix.ToLower(), 0);
             return "success";
         }
     }
