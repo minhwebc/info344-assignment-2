@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AzureCloudService2" generation="1" functional="0" release="0" Id="955ab5b9-8b6c-4fde-b0c9-1a79c44954b0" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AzureCloudService2" generation="1" functional="0" release="0" Id="8699394c-099c-4d9a-a8a9-b380f196db54" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="AzureCloudService2Group" generation="1" functional="0" release="0">
       <componentports>
@@ -178,14 +178,14 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="6f78856e-df16-48cb-908b-59fa4646eafe" ref="Microsoft.RedDog.Contract\ServiceContract\AzureCloudService2Contract@ServiceDefinition">
+    <implementation Id="9f5d204c-c560-4d1b-aec2-d1ffe92a9c96" ref="Microsoft.RedDog.Contract\ServiceContract\AzureCloudService2Contract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="b77f2e4f-fe9a-4868-bb0e-a553b2c5499a" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="f4541e18-c052-4b02-a1da-a6740f1e720e" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/AzureCloudService2/AzureCloudService2Group/WebRole1:Endpoint1" />
           </inPort>
         </interfaceReference>
-        <interfaceReference Id="a7ff8635-6f82-472e-9e1d-01151509fc0f" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput@ServiceDefinition">
+        <interfaceReference Id="20c95a46-443e-41e6-8fd2-a8fc2d7a2686" ref="Microsoft.RedDog.Contract\Interface\WebRole1:Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/AzureCloudService2/AzureCloudService2Group/WebRole1:Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput" />
           </inPort>

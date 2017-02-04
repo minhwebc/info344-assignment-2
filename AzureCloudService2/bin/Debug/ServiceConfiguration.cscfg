@@ -24,4 +24,14 @@
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="C4AECE08459864B7F90CA91D81996B2BEBB2D98B" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
+  <NetworkConfiguration>
+    <VirtualNetworkSite name="VNet" />
+    <AddressAssignments>
+      <InstanceAddress roleName="VMRolePersisted">
+        <PublicIPs>
+          <PublicIP name="public-ip-name" idleTimeoutInMinutes="15" />
+        </PublicIPs>
+      </InstanceAddress>
+    </AddressAssignments>
+  </NetworkConfiguration>
 </ServiceConfiguration>

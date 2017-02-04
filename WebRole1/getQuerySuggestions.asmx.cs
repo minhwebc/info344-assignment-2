@@ -30,6 +30,10 @@ namespace WebRole1
     {
         private static MyTrie storage;
 
+        /// <summary>
+        /// Download the file
+        /// </summary>
+        /// <returns>the location of the downloaded file</returns>
         [WebMethod]
         public string DownloadFile()
         {
@@ -62,6 +66,10 @@ namespace WebRole1
             return fileName;
         }
 
+        /// <summary>
+        /// Reference to the blob, read the blob and buld the trie 
+        /// </summary>
+        /// <returns>the status of the process</returns>
         [WebMethod]
         public string BuildTrie()
         {
@@ -83,7 +91,6 @@ namespace WebRole1
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
-                    System.Diagnostics.Debug.WriteLine(ramCounter.NextValue());
                     while (!reader.EndOfStream && ramCounter.NextValue() > 30)
                     {
                         string result = "";
@@ -106,9 +113,14 @@ namespace WebRole1
                         return "end of file";
                 }
             }
-            return "hello";
+            return "out of memory ?";
         }
 
+        /// <summary>
+        /// Search trie and generate a list of suggestions baed on user input word
+        /// </summary>
+        /// <param name="prefix">user input word</param>
+        /// <returns></returns>
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string SearchTrie(string prefix)
@@ -117,6 +129,11 @@ namespace WebRole1
             return new JavaScriptSerializer().Serialize(result.ToArray());
         }
 
+        /// <summary>
+        /// search all the word suggestion for the word input by the user if there are less than 10 result
+        /// </summary>
+        /// <param name="prefix">user input word1</param>
+        /// <returns>list of suggestions of the user input word</returns>
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string SearchSuggestions(string prefix)
@@ -125,6 +142,11 @@ namespace WebRole1
             return new JavaScriptSerializer().Serialize(result.ToArray());
         }
 
+        /// <summary>
+        /// Add word into the trie if there are no result
+        /// </summary>
+        /// <param name="prefix">word to be addd</param>
+        /// <returns>message by the server</returns>
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string AddWord(string prefix)

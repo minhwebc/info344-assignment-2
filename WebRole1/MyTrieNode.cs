@@ -7,24 +7,43 @@ namespace WebRole1
 {
     sealed class MyTrieNode : BurstNavigable
     {
-        const int TRIE_WIDTH = 128;
+        const int TRIE_WIDTH = 128; 
         const int MINIMAL_WIDTH_USE = 32;  // standard ascii
         const int MAXIMAL_WIDTH_USE = 126;  // standard ascii
         public BurstNavigable[] _next;
 
+        /// <summary>
+        /// Add the word into the tree
+        /// </summary>
+        /// <param name="word">word string</param>
+        /// <param name="pageCount">page count of that word</param>
         public void Add(string word, int pageCount) { Add(word.ToCharArray(), pageCount); }
 
+        /// <summary>
+        /// Add the word into the tree
+        /// </summary>
+        /// <param name="word">char array of the word</param>
+        /// <param name="pageCount">page count of the word</param>
         public override void Add(char[] word, int pageCount)
         {
             Add(word, 0, pageCount);
         }
 
-        //To be used only by containers
+        /// <summary>
+        /// To be used only by containers
+        /// </summary>
+        /// <returns>whether or not a container should be burst</returns>
         public bool ShouldBust()
         {
             return false;
         }
 
+        /// <summary>
+        /// Add word into the container using a starting index
+        /// </summary>
+        /// <param name="word">char array word</param>
+        /// <param name="start">starting index</param>
+        /// <param name="pageCount">pagecount of that word</param>
         public override void Add(char[] word, int start, int pageCount)
         {
             if (word.Length == start)
@@ -41,7 +60,7 @@ namespace WebRole1
 
             if (target == null)
             {
-                // always start with a bucket.
+                // always start with a container.
                 target = new MyContainer();
                 _next[c] = target;
             }
@@ -54,21 +73,40 @@ namespace WebRole1
             target.Add(word, start + 1, pageCount);
         }
 
+        /// <summary>
+        /// Get the type of the class
+        /// </summary>
+        /// <returns>node(n) or container(c)</returns>
         public override char getType()
         {
             return 'n';
         }
 
+        /// <summary>
+        /// Get the node child from the children array of the node class
+        /// </summary>
+        /// <param name="num">number or the char place of the node/container</param>
+        /// <returns>the node or container</returns>
         public override BurstNavigable GetChild(int num)
         {
             return _next[num];
         }
 
+        /// <summary>
+        /// Get back all the words in the sorted set (to be used only for the container class)
+        /// </summary>
+        /// <returns>Sorted set of all the words in the container</returns>
         public override SortedSet<Word> GetChildren()
         {
             return null;
         }
 
+        /// <summary>
+        /// Burst the container, replace it with a node and the most common character will be the child of that node
+        /// anything left will be put in containers approriately
+        /// </summary>
+        /// <param name="temp">container</param>
+        /// <returns>a node with an array of children that are either a node or container</returns>
         public MyTrieNode BurstThisContainer(BurstNavigable temp)
         {
             MyTrieNode node = new MyTrieNode();
@@ -80,6 +118,12 @@ namespace WebRole1
             return node;
         }
 
+        /// <summary>
+        /// Get 10 words from the current word
+        /// </summary>
+        /// <param name="temp">node or container</param>
+        /// <param name="word">string based prefix</param>
+        /// <returns>10 words from that prefix</returns>
         public List<string> GetWords(BurstNavigable temp, string word)
         {
             List<string> result = new List<string>();
@@ -87,6 +131,13 @@ namespace WebRole1
             return result;
         }
 
+        /// <summary>
+        /// Get words from the container or node. If node then we continue to traverse down, if not
+        /// we will just add all the word in the container into the list
+        /// </summary>
+        /// <param name="temp">node or container</param>
+        /// <param name="result">list of the words</param>
+        /// <param name="resultString">result string to be concat with what is in the container</param>
         private void GetWords(BurstNavigable temp, List<string> result, string resultString)
         {
             if (result.Count >= 10)
@@ -124,6 +175,14 @@ namespace WebRole1
             }
         }
 
+        /// <summary>
+        /// get all the prefix suggestion from the input word 
+        /// </summary>
+        /// <param name="temp">node or container</param>
+        /// <param name="word">character array of the word</param>
+        /// <param name="result">result list</param>
+        /// <param name="start">starting index</param>
+        /// <param name="resultString">resulting string to be concat with what is left in the container before adding</param>
         private void GetWords(BurstNavigable temp, char[] word, List<string> result, int start, string resultString)
         {
             if (temp == null)
@@ -189,11 +248,21 @@ namespace WebRole1
             }
         }
 
+        /// <summary>
+        /// Get all the children of the node
+        /// </summary>
+        /// <returns>array of width of 128 which = all ascii value</returns>
         public override BurstNavigable[] GetNexts()
         {
             return _next;
         }
 
+        /// <summary>
+        /// Get all the suggestions from 
+        /// </summary>
+        /// <param name="temp">node</param>
+        /// <param name="prefix">prefix the user inputed</param>
+        /// <returns></returns>
         public List<string> GetSuggestions(MyTrieNode temp, string prefix)
         {
             List<string> result = new List<string>();
@@ -201,7 +270,15 @@ namespace WebRole1
             return result;
         }
 
-        //Will get back all the suggestions that is the same length with the prefix and within 1,2 Levenshtein Distance
+        /// <summary>
+        /// Will get back all the suggestions that is the same length with the prefix and within 1,2 Levenshtein Distance
+        /// </summary>
+        /// <param name="temp">node or conatiner</param>
+        /// <param name="result">list to store all the string</param>
+        /// <param name="resultString">result string to be compared with prefix</param>
+        /// <param name="prefix">word input by the user</param>
+        /// <param name="limit">limit</param>
+        /// <param name="start">starting index</param>
         private void GetSuggestionsWithLimits(BurstNavigable temp, List<string> result, string resultString, string prefix, int limit, int start)
         {
             if (temp == null)
@@ -220,7 +297,8 @@ namespace WebRole1
                 if (distance == 1 || distance == 2)
                 {
                     if (result.Count < 10)
-                        result.Add(resultString);
+                        if (!result.Contains(resultString))
+                            result.Add(resultString);
                 }
                 return;
             }
@@ -248,13 +326,19 @@ namespace WebRole1
                     int distance = CalcLevenshteinDistance(prefix, resultString);
                     if (distance == 1 || distance == 2)
                     {
-                        result.Add(resultString);
+                        if (!result.Contains(resultString))
+                            result.Add(resultString);
                     }
                 }
             }
         }
 
-        //method to caculate levenshtein distance between two words to generate suggestions 
+        /// <summary>
+        /// method to caculate levenshtein distance between two words to generate suggestions 
+        /// </summary>
+        /// <param name="a">word 1</param>
+        /// <param name="b">word 2</param>
+        /// <returns>the levenshtein distance between two word</returns>
         private int CalcLevenshteinDistance(string a, string b)
         {
             if (String.IsNullOrEmpty(a) || String.IsNullOrEmpty(b)) return 0;

@@ -29,7 +29,7 @@
         $('#inputSearch').bind('input', function () {
             var prefix = $("#inputSearch").val();
             console.log(prefix);
-            $("#suggestions").empty();
+            
             $("#jsonDiv").empty();
             if (prefix.length != 0) {
                 $.ajax({
@@ -39,14 +39,14 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
+                        $("#suggestions").empty();
                         var result = JSON.parse(msg.d);
                         console.log(result);
                         for(var i = 0; i < result.length; i++){
                             $("#jsonDiv").append("<b>"+result[i]+"</b><br>");
                         }
                         if (result.length < 10) {
-                            $("#suggestions").empty();
-                            $("#suggestions").append("<h1>Suggestions</h1>");
+                            
                             $.ajax({
                                 type: "POST",
                                 url: "getQuerySuggestions.asmx/SearchSuggestions",
@@ -54,6 +54,8 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (msg) {
+                                    $("#suggestions").empty();
+                                    $("#suggestions").append("<h1>Suggestions</h1>");
                                     var result = JSON.parse(msg.d);
                                     for (var i = 0; i < result.length; i++) {
                                         $("#suggestions").append("<b>" + result[i] + "</b><br>");
@@ -79,8 +81,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (msg) {
-                        var result = JSON.parse(msg.d);
-                        console.log(result);
+                        console.log(msg);
                     }
                 })
             }
